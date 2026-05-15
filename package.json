@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
-    "preview": "astro preview --host 127.0.0.1"
+    "preview": "astro preview --host 127.0.0.1",
+    "deploy": "wrangler deploy --assets=./dist --name personal-blog-demo --compatibility-date=2026-05-15"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
     "astro": "^5.8.0"
   },
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "wrangler": "^4.91.0"
   }
 }
