@@ -1,6 +1,6 @@
 # Personal Blog Demo
 
-一个适合先部署到 Cloudflare Pages 的个人博客 demo。当前版本是静态站点，支持首页、关于页、文章列表、文章详情和一个本地编辑器演示页。
+一个适合部署到 Cloudflare 的个人博客 demo。当前版本是静态站点，支持首页、关于页、文章列表、文章详情，以及一个基于 Sveltia CMS 的免费后台。
 
 ## 本地运行
 
@@ -42,69 +42,55 @@ videoUrl: "https://www.bilibili.com/"
 
 ## 免费发布流程
 
-当前最简单、免费的后台方式是把 GitHub 当作内容管理后台：
+当前后台使用 Sveltia CMS。它会把文章和个人资料保存到 GitHub，Cloudflare 检测到 GitHub 更新后自动重新部署：
 
 ```txt
-GitHub 编辑文章/上传图片
+后台编辑文章/上传图片
         -> 提交 commit
         -> Cloudflare 自动构建
         -> 线上博客更新
 ```
 
+## 后台管理
+
+访问：
+
+```txt
+/admin
+```
+
+后台可以管理：
+
+```txt
+文章标题
+文章简介
+文章标签
+文章封面
+正文内容
+正文插图
+视频链接
+个人资料
+头像
+联系方式
+```
+
+第一次使用后台时，需要登录 GitHub，并授权后台向这个仓库提交内容。后台发布后，本质上是在 GitHub 里生成一次 commit。
+
 ### 新增文章
 
-在 GitHub 仓库里打开：
-
-```txt
-src/content/posts/
-```
-
-点击 `Add file` -> `Create new file`，文件名写成：
-
-```txt
-my-new-note.md
-```
-
-内容使用这个格式：
-
-```md
----
-title: "我的新文章"
-description: "这是一句话简介，会显示在文章列表里。"
-date: 2026-05-15
-tags: ["学习笔记", "分享"]
-cover: "/uploads/my-cover.jpg"
-videoUrl: "https://www.bilibili.com/"
----
-
-这里写正文。
-
-![正文配图](/uploads/example.jpg)
-```
-
-写完后点击 `Commit changes`。Cloudflare 会自动重新部署，部署成功后文章就会上线。
+进入 `/admin` 后，选择 `文章`，点击新建。填写标题、简介、日期、标签、封面图和正文，然后发布。
 
 ### 上传图片
 
-在 GitHub 仓库里打开：
+后台里的图片会保存到：
 
 ```txt
 public/uploads/
 ```
 
-点击 `Add file` -> `Upload files`，把图片拖进去，然后 `Commit changes`。
+文章正文里可以通过编辑器插入图片。文章封面图使用后台里的 `封面图` 字段。
 
-图片上传后，在文章里这样引用：
-
-```md
-![图片说明](/uploads/your-image.jpg)
-```
-
-文章封面图则写在文章顶部的 `cover` 字段里：
-
-```md
-cover: "/uploads/your-cover.jpg"
-```
+如果你想手动管理，也可以直接在 GitHub 里编辑 `src/content/posts/` 和 `public/uploads/`。
 
 ## 替换 demo 图片
 
@@ -123,28 +109,6 @@ src/content/posts/*.md
 每篇文章 frontmatter 里的 `cover` 是文章封面图，会显示在文章列表卡片和文章详情顶部。
 
 正式上线时更推荐把图片上传到 Cloudinary、Supabase Storage、Cloudflare R2、阿里云 OSS 或腾讯云 COS，然后把返回的图片 URL 填到 `avatar` 或 `cover` 里。
-
-## 编辑器演示
-
-访问：
-
-```txt
-/admin
-```
-
-当前编辑器只把内容保存在浏览器 localStorage，用来演示后台体验。它不会出现在公开首页和导航里，但直接访问 `/admin` 仍然可以打开。正式版本应该加入登录权限，并把保存逻辑换成数据库和图片上传接口。
-
-编辑器里的正文区域支持：
-
-```txt
-打字
-标题
-加粗
-列表
-把图片插入到正文中间
-```
-
-现在的插图会以浏览器本地预览方式保存。正式版本应该先把图片上传到图片存储服务，再把图片 URL 插入正文。
 
 ## Cloudflare Pages 部署
 

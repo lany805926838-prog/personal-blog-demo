@@ -1,13 +1,19 @@
 ---
 import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import { profile } from '../data/profile';
 
 const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+
+const profileEntry = await getEntry('profile', 'about');
+if (!profileEntry) {
+  throw new Error('Missing profile content at src/content/profile/about.md');
+}
+const profile = profileEntry.data;
 ---
 
 <BaseLayout title={`${profile.name}的个人博客`} description={profile.bio}>

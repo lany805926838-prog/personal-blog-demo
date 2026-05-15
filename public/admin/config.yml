@@ -1,0 +1,101 @@
+backend:
+  name: github
+  repo: lany805926838-prog/personal-blog-demo
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://personal-blog-demo.lany805926838.workers.dev
+display_url: https://personal-blog-demo.lany805926838.workers.dev
+locale: zh_Hans
+
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    folder: src/content/posts
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: posts/{{slug}}
+    summary: "{{title}} - {{date}}"
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+      - label: 简介
+        name: description
+        widget: text
+      - label: 发布日期
+        name: date
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: YYYY-MM-DD
+        time_format: false
+      - label: 标签
+        name: tags
+        widget: list
+        field:
+          label: 标签
+          name: tag
+          widget: string
+      - label: 封面图
+        name: cover
+        widget: image
+      - label: 视频链接
+        name: videoUrl
+        widget: string
+        required: false
+        hint: 可以填写 B 站或 YouTube 链接；不填就不显示视频按钮。
+      - label: 草稿
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+      - label: 正文
+        name: body
+        widget: markdown
+        hint: 可以在正文中插入图片、标题、列表和链接。
+
+  - name: profile
+    label: 个人资料
+    files:
+      - label: 关于我
+        name: about
+        file: src/content/profile/about.md
+        fields:
+          - label: 名字
+            name: name
+            widget: string
+          - label: 身份/一句话介绍
+            name: role
+            widget: string
+          - label: 位置
+            name: location
+            widget: string
+          - label: 头像
+            name: avatar
+            widget: image
+          - label: 个人简介
+            name: bio
+            widget: text
+          - label: 技能/关键词
+            name: skills
+            widget: list
+            field:
+              label: 技能
+              name: skill
+              widget: string
+          - label: 链接
+            name: links
+            widget: list
+            fields:
+              - label: 名称
+                name: label
+                widget: string
+              - label: 地址
+                name: href
+                widget: string

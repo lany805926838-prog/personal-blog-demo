@@ -1,6 +1,12 @@
 ---
+import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { profile } from '../data/profile';
+
+const profileEntry = await getEntry('profile', 'about');
+if (!profileEntry) {
+  throw new Error('Missing profile content at src/content/profile/about.md');
+}
+const profile = profileEntry.data;
 ---
 
 <BaseLayout title={`关于 ${profile.name}`} description={profile.bio}>
