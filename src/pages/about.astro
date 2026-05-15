@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+---
+
+<BaseLayout title={`关于 ${profile.name}`} description={profile.bio}>
+  <section class="page-hero compact">
+    <p class="eyebrow">About</p>
+    <h1>关于我</h1>
+    <p>{profile.bio}</p>
+  </section>
+
+  <section class="section profile-section">
+    <img class="profile-photo" src={profile.avatar} alt={`${profile.name}的头像`} />
+    <div class="profile-detail">
+      <h2>{profile.name}</h2>
+      <p>{profile.role}</p>
+      <div class="tag-row">
+        {profile.skills.map((skill) => <span>{skill}</span>)}
+      </div>
+      <div class="link-list">
+        {profile.links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

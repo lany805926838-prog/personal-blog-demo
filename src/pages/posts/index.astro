@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('posts'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="文章列表" description="个人博客文章、学习笔记和经验分享。">
+  <section class="page-hero compact">
+    <p class="eyebrow">Posts</p>
+    <h1>文章</h1>
+    <p>记录学习笔记、项目复盘和一些值得以后回看的内容。</p>
+  </section>
+  <section class="section">
+    <div class="post-grid">
+      {posts.map((post) => (
+        <PostCard
+          href={`/posts/${post.slug}`}
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          cover={post.data.cover}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

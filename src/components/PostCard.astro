@@ -1,0 +1,26 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  cover: string;
+}
+
+const { href, title, description, date, tags, cover } = Astro.props;
+---
+
+<article class="post-card">
+  <a class="post-cover-link" href={href} aria-label={`阅读 ${title}`}>
+    <img class="post-cover" src={cover} alt="" loading="lazy" />
+  </a>
+  <div class="post-card-body">
+    <time datetime={date.toISOString()}>{date.toLocaleDateString('zh-CN')}</time>
+    <h2><a href={href}>{title}</a></h2>
+    <p>{description}</p>
+    <div class="tag-row" aria-label="文章标签">
+      {tags.map((tag) => <span>{tag}</span>)}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,236 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="编辑器 Demo" description="个人博客后台编辑器演示。">
+  <section class="page-hero compact">
+    <p class="eyebrow">Editor Demo</p>
+    <h1>编辑器演示</h1>
+    <p>这里先演示个人资料、文章、图片和视频链接的编辑体验。当前版本只保存在本机浏览器，接入云存储后即可变成真实后台。</p>
+  </section>
+
+  <section class="editor-shell" data-editor>
+    <aside class="editor-panel">
+      <label>
+        昵称
+        <input id="profileName" type="text" value="你的名字" />
+      </label>
+      <label>
+        个人简介
+        <textarea id="profileBio" rows="5">记录学习笔记、项目复盘和生活观察。</textarea>
+      </label>
+      <label>
+        文章标题
+        <input id="postTitle" type="text" value="今天学到的新东西" />
+      </label>
+
+      <div class="editor-field">
+        <span>文章内容</span>
+        <div class="rich-toolbar" aria-label="正文工具栏">
+          <button type="button" data-command="formatBlock" data-value="h2">标题</button>
+          <button type="button" data-command="bold">B</button>
+          <button type="button" data-command="insertUnorderedList">列表</button>
+          <button type="button" id="insertInlineImage">插入图片</button>
+        </div>
+        <div
+          id="postBody"
+          class="rich-editor"
+          contenteditable="true"
+          role="textbox"
+          aria-multiline="true"
+        >
+          <p>这里可以像写文档一样输入正文。</p>
+          <p>你可以把光标放在任意位置，然后点击“插入图片”，图片会插入到正文中间。</p>
+        </div>
+        <input id="inlineImageInput" class="hidden" type="file" accept="image/*" />
+      </div>
+
+      <label>
+        视频链接
+        <input id="videoUrl" type="url" placeholder="https://www.bilibili.com/video/..." />
+      </label>
+      <label>
+        上传封面图预览
+        <input id="coverInput" type="file" accept="image/*" />
+      </label>
+      <div class="editor-actions">
+        <button class="button primary" id="saveDraft" type="button">保存预览</button>
+        <button class="button secondary" id="resetDraft" type="button">重置</button>
+      </div>
+    </aside>
+
+    <article class="editor-preview">
+      <img id="previewCover" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1600&q=80" alt="" />
+      <div>
+        <p class="eyebrow" id="previewName">你的名字</p>
+        <h2 id="previewTitle">今天学到的新东西</h2>
+        <p id="previewBio">记录学习笔记、项目复盘和生活观察。</p>
+        <div class="preview-body" id="previewBody">
+          <p>这里可以像写文档一样输入正文。</p>
+          <p>你可以把光标放在任意位置，然后点击“插入图片”，图片会插入到正文中间。</p>
+        </div>
+        <a class="video-link hidden" id="previewVideo" href="#" target="_blank" rel="noreferrer">打开视频链接</a>
+      </div>
+    </article>
+  </section>
+
+  <script>
+    const fields = {
+      profileName: document.querySelector('#profileName'),
+      profileBio: document.querySelector('#profileBio'),
+      postTitle: document.querySelector('#postTitle'),
+      postBody: document.querySelector('#postBody'),
+      videoUrl: document.querySelector('#videoUrl'),
+      coverInput: document.querySelector('#coverInput'),
+      inlineImageInput: document.querySelector('#inlineImageInput'),
+      previewCover: document.querySelector('#previewCover'),
+      previewName: document.querySelector('#previewName'),
+      previewTitle: document.querySelector('#previewTitle'),
+      previewBio: document.querySelector('#previewBio'),
+      previewBody: document.querySelector('#previewBody'),
+      previewVideo: document.querySelector('#previewVideo')
+    };
+
+    const storageKey = 'personal-blog-demo-draft';
+    let savedSelection = null;
+
+    function isEditorSelection(selection) {
+      if (!selection || selection.rangeCount === 0) return false;
+      const range = selection.getRangeAt(0);
+      return fields.postBody.contains(range.commonAncestorContainer);
+    }
+
+    function saveSelection() {
+      const selection = window.getSelection();
+      if (!isEditorSelection(selection)) return;
+      savedSelection = selection.getRangeAt(0);
+    }
+
+    function restoreSelection() {
+      if (!savedSelection) return;
+      if (!fields.postBody.contains(savedSelection.commonAncestorContainer)) return;
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(savedSelection);
+    }
+
+    function applyPreview(data) {
+      fields.previewName.textContent = data.profileName;
+      fields.previewTitle.textContent = data.postTitle;
+      fields.previewBio.textContent = data.profileBio;
+      fields.previewBody.innerHTML = data.postBodyHtml || `<p>${data.postBody || ''}</p>`;
+      fields.previewVideo.href = data.videoUrl || '#';
+      fields.previewVideo.classList.toggle('hidden', !data.videoUrl);
+      if (data.cover) fields.previewCover.src = data.cover;
+    }
+
+    function readData() {
+      return {
+        profileName: fields.profileName.value,
+        profileBio: fields.profileBio.value,
+        postTitle: fields.postTitle.value,
+        postBodyHtml: fields.postBody.innerHTML,
+        videoUrl: fields.videoUrl.value,
+        cover: fields.previewCover.src
+      };
+    }
+
+    function sync() {
+      applyPreview(readData());
+    }
+
+    function insertImage(src, alt = '') {
+      restoreSelection();
+      const image = document.createElement('img');
+      image.src = src;
+      image.alt = alt;
+      const figure = document.createElement('figure');
+      figure.append(image);
+      const caption = document.createElement('figcaption');
+      caption.textContent = '图片说明';
+      figure.append(caption);
+      const paragraph = document.createElement('p');
+      paragraph.innerHTML = '<br>';
+
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(paragraph);
+        range.insertNode(figure);
+        range.setStartAfter(paragraph);
+        range.setEndAfter(paragraph);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } else {
+        fields.postBody.append(figure, paragraph);
+      }
+      fields.postBody.focus();
+      sync();
+    }
+
+    for (const key of ['profileName', 'profileBio', 'postTitle', 'videoUrl']) {
+      fields[key].addEventListener('input', sync);
+    }
+
+    fields.postBody.addEventListener('input', sync);
+    fields.postBody.addEventListener('keyup', saveSelection);
+    fields.postBody.addEventListener('mouseup', saveSelection);
+    fields.postBody.addEventListener('blur', saveSelection);
+
+    document.querySelectorAll('[data-command]').forEach((button) => {
+      button.addEventListener('click', () => {
+        restoreSelection();
+        document.execCommand(button.dataset.command, false, button.dataset.value || null);
+        fields.postBody.focus();
+        sync();
+      });
+    });
+
+    document.querySelector('#insertInlineImage').addEventListener('click', () => {
+      saveSelection();
+      fields.inlineImageInput.click();
+    });
+
+    fields.inlineImageInput.addEventListener('change', () => {
+      const file = fields.inlineImageInput.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        insertImage(reader.result, file.name);
+        fields.inlineImageInput.value = '';
+      });
+      reader.readAsDataURL(file);
+    });
+
+    fields.coverInput.addEventListener('change', () => {
+      const file = fields.coverInput.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        fields.previewCover.src = reader.result;
+        sync();
+      });
+      reader.readAsDataURL(file);
+    });
+
+    document.querySelector('#saveDraft').addEventListener('click', () => {
+      localStorage.setItem(storageKey, JSON.stringify(readData()));
+    });
+
+    document.querySelector('#resetDraft').addEventListener('click', () => {
+      localStorage.removeItem(storageKey);
+      window.location.reload();
+    });
+
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      const data = JSON.parse(stored);
+      for (const key of ['profileName', 'profileBio', 'postTitle', 'videoUrl']) {
+        fields[key].value = data[key] || '';
+      }
+      fields.postBody.innerHTML = data.postBodyHtml || `<p>${data.postBody || ''}</p>`;
+      applyPreview(data);
+    }
+  </script>
+</BaseLayout>
