@@ -40,6 +40,72 @@ videoUrl: "https://www.bilibili.com/"
 
 视频建议只保存 B 站或 YouTube 链接。图片后续可以接 Cloudinary、Supabase Storage 或对象存储。
 
+## 免费发布流程
+
+当前最简单、免费的后台方式是把 GitHub 当作内容管理后台：
+
+```txt
+GitHub 编辑文章/上传图片
+        -> 提交 commit
+        -> Cloudflare 自动构建
+        -> 线上博客更新
+```
+
+### 新增文章
+
+在 GitHub 仓库里打开：
+
+```txt
+src/content/posts/
+```
+
+点击 `Add file` -> `Create new file`，文件名写成：
+
+```txt
+my-new-note.md
+```
+
+内容使用这个格式：
+
+```md
+---
+title: "我的新文章"
+description: "这是一句话简介，会显示在文章列表里。"
+date: 2026-05-15
+tags: ["学习笔记", "分享"]
+cover: "/uploads/my-cover.jpg"
+videoUrl: "https://www.bilibili.com/"
+---
+
+这里写正文。
+
+![正文配图](/uploads/example.jpg)
+```
+
+写完后点击 `Commit changes`。Cloudflare 会自动重新部署，部署成功后文章就会上线。
+
+### 上传图片
+
+在 GitHub 仓库里打开：
+
+```txt
+public/uploads/
+```
+
+点击 `Add file` -> `Upload files`，把图片拖进去，然后 `Commit changes`。
+
+图片上传后，在文章里这样引用：
+
+```md
+![图片说明](/uploads/your-image.jpg)
+```
+
+文章封面图则写在文章顶部的 `cover` 字段里：
+
+```md
+cover: "/uploads/your-cover.jpg"
+```
+
 ## 替换 demo 图片
 
 当前 demo 里的图片大多是远程示例图。你可以按用途替换：
