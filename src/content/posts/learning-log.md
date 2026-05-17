@@ -1,23 +1,11 @@
 ---
-title: "学习笔记应该怎么写才方便复盘"
-description: "一篇示例文章，用来展示代码块、图片、标签和视频链接在博客里的样子。"
-date: 2026-05-12
-tags: ["学习方法", "笔记", "复盘"]
-cover: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80"
+title: 5.16复盘
+description: 5.16复盘
+date: 2026-05-17
+tags:
+  - 日记
+cover: /uploads/ChatGPT Image 2026年5月17日 11_43_43.png
+videoUrl: ''
 ---
 
-我希望博客不仅是展示页，也能成为自己的学习记录。每篇文章最好回答三个问题：
-
-1. 今天学到了什么？
-2. 哪个概念之前不清楚，现在清楚了？
-3. 下次遇到类似问题时，应该怎么做？
-
-```ts
-const note = {
-  topic: 'personal blog',
-  goal: 'ship a demo first',
-  nextStep: 'connect image storage'
-};
-```
-
-配图、代码、链接和结论放在一起，之后回看会更省时间。
+昨天用了codex做了一个第一人称射击游戏的demo，肉鸽玩法，比较轻量级，还是挺有趣的，主要整个项目文件才几十kb。然后继续学习了dify，目前是能够用dify搭建一些简单的agent工作助手，后续还要将dify的工作流这部分内容吃透。然后今天是打算做一个稍微大一点的项目，因为之前做的项目要都没有用到数据库，今天打算将整个博客项目升级一下，链接自己的数据库，然后做一个后端管理系统，做成想微博一样的用户可以注册的项目。
