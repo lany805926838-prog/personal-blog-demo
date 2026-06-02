@@ -1,6 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 
@@ -16,14 +15,14 @@ if (!profileEntry) {
 const profile = profileEntry.data;
 ---
 
-<BaseLayout title={`${profile.name}的个人博客`} description={profile.bio}>
+<BaseLayout title={`${profile.name} 的 AI 应用项目博客`} description={profile.bio}>
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">Personal Blog</p>
+      <p class="eyebrow">AI Application Portfolio</p>
       <h1>{profile.name}</h1>
       <p class="lead">{profile.bio}</p>
       <div class="hero-actions">
-        <a class="button primary" href="/posts">看文章</a>
+        <a class="button primary" href="/posts">看项目文章</a>
         <a class="button secondary" href="/about">关于我</a>
       </div>
     </div>
@@ -38,16 +37,17 @@ const profile = profileEntry.data;
 
   <section class="section split">
     <div>
-      <p class="eyebrow">Profile</p>
-      <h2>用于记录学习、项目和观点</h2>
+      <p class="eyebrow">Focus</p>
+      <h2>从真实资料到可使用的 AI 应用</h2>
     </div>
+    <p>这些文章重点记录我如何用 Codex 辅助整理需求、清洗资料、搭建 Dify/RAG 工作流、接入网页入口，并把结果整理成 HR 和业务方都能看懂的项目复盘。</p>
   </section>
 
   <section class="section">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">Latest Notes</p>
-        <h2>最新文章</h2>
+        <p class="eyebrow">Latest Projects</p>
+        <h2>最新项目文章</h2>
       </div>
       <a class="text-link" href="/posts">全部文章</a>
     </div>

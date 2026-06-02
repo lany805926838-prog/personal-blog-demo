@@ -1,12 +1,17 @@
 ---
 name: jamie
-role: 个人博客 / 学习笔记 / 经验分享
-location: china
+role: AI 应用工程师方向 / 项目复盘 / 作品集
+location: 广州
 avatar: /uploads/ChatGPT Image 2026年5月17日 12_39_20.png
-bio: 个人的博客平台，用来介绍自己及写一些ai相关应用的心得
+bio: 这里记录我用 Codex、Dify、RAG、自动化脚本和网页集成做过的 AI 应用项目，重点展示如何把企业资料、FAQ、流程和重复问题转成可落地的 AI 工具。
 skills:
-  - 使用ai工具为实际的工作场景赋能
+  - Dify Chatflow
+  - RAG 知识库
+  - Prompt 设计
+  - FAQ 清洗
+  - Astro
+  - Cloudflare Workers
 links:
   - label: email
-    href: 805936838@qq.com
+    href: mailto:805926838@qq.com
 ---

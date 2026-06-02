@@ -8,11 +8,11 @@ const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BaseLayout title="文章列表" description="个人博客文章、学习笔记和经验分享。">
+<BaseLayout title="项目文章" description="AI 应用工程师方向的项目复盘与作品记录。">
   <section class="page-hero compact">
-    <p class="eyebrow">Posts</p>
-    <h1>文章</h1>
-    <p>记录学习笔记、项目复盘和一些值得以后回看的内容。</p>
+    <p class="eyebrow">AI Portfolio</p>
+    <h1>项目文章</h1>
+    <p>只记录对 AI 应用工程师岗位有展示价值的项目：业务场景、知识库、流程编排、网页集成、自动化和交付复盘。</p>
   </section>
   <section class="section">
     <div class="post-grid">

@@ -7,8 +7,8 @@ interface Props {
 }
 
 const {
-  title = '个人博客 Demo',
-  description = '一个低成本、可部署到 Cloudflare Pages 的个人博客 demo。'
+  title = 'jamie 的 AI 应用项目博客',
+  description = '记录 AI 应用工程师方向的项目复盘、知识库建设、自动化和网页集成实践。'
 } = Astro.props;
 ---
 
@@ -26,11 +26,11 @@ const {
   <body>
     <header class="site-header">
       <a class="brand" href="/" aria-label="返回首页">
-        <span class="brand-mark">B</span>
-        <span>jamie Demo</span>
+        <span class="brand-mark">J</span>
+        <span>jamie AI 项目</span>
       </a>
       <nav class="nav-links" aria-label="主导航">
-        <a href="/posts">文章</a>
+        <a href="/posts">项目文章</a>
         <a href="/about">关于</a>
       </nav>
     </header>
@@ -38,8 +38,8 @@ const {
       <slot />
     </main>
     <footer class="site-footer">
-      <span>Personal blog</span>
-      <span>Cloudflare Pages ready</span>
+      <span>AI 应用工程师作品记录</span>
+      <span>Codex / Dify / RAG / 自动化</span>
     </footer>
   </body>
 </html>
