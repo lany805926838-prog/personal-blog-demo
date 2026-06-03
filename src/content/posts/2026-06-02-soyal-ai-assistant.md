@@ -1,17 +1,19 @@
 ---
-title: 项目记录：SOYAL 产品资料 AI 助手
-description: 用 Dify、RAG、Astro 和 Cloudflare Worker 做了一个 SOYAL 产品资料问答助手，用来查询产品、软件和 FAQ 排障资料。
-date: 2026-06-02
+title: 项目记录：公司产品资料 AI 助手
+description: 用 Dify、RAG、Astro 和 Cloudflare Worker 做了一个 SOYAL 产品资料问答助手，用来查询产品、软件和 FAQ 排障资料，全部开发工作及网站上线都由codex完成。
+date: 2026-05-30
 tags:
   - Dify
   - RAG
   - AI 助手
   - Cloudflare Workers
+  - codex
 cover: /uploads/ChatGPT Image 2026年5月17日 12_39_20.png
+videoUrl: ''
 draft: false
 ---
 
-这个项目是我用 SOYAL 公开资料做的一个产品资料 AI 助手。它的作用是让用户可以直接提问 SOYAL 产品、701SQL 软件、FAQ 排障和公司资料，而不是自己去翻官网、说明书和 FAQ 页面。
+这个项目是我用 SOYAL（一家做监控安防类的公司） 公开资料做的一个产品资料 AI 助手。它的作用是让用户可以直接提问 SOYAL 产品、701SQL 软件、FAQ 排障和公司资料，不用自己一个个去翻官网、说明书和 FAQ 页面。
 
 ## 我做了什么
 
@@ -35,4 +37,4 @@ draft: false
 
 最终做出了一个可以本地运行的 SOYAL 产品资料助手页面。页面里有常见问题按钮、聊天窗口、输入框，也标出了哪些问题适合询问，哪些问题需要人工确认。
 
-这个项目让我练习了从资料整理、知识库搭建、Dify 流程设计，到网页接入 AI 能力的完整流程。
+这个项目我练习了从资料整理、知识库搭建、Dify 流程设计，到网页接入 AI 能力的完整流程。
