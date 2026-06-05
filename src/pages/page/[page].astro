@@ -1,0 +1,139 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const pageSize = 10;
+
+export async function getStaticPaths() {
+  const pageSize = 10;
+  const posts = (await getCollection('posts'))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  const totalPages = Math.ceil(posts.length / pageSize);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const currentPage = index + 2;
+    const start = (currentPage - 1) * pageSize;
+    return {
+      params: { page: String(currentPage) },
+      props: {
+        posts: posts.slice(start, start + pageSize),
+        currentPage,
+        totalPages,
+        totalPosts: posts.length
+      }
+    };
+  });
+}
+
+const { posts, currentPage, totalPages, totalPosts } = Astro.props;
+const profileEntry = await getEntry('profile', 'about');
+if (!profileEntry) {
+  throw new Error('Missing profile content at src/content/profile/about.md');
+}
+const profile = profileEntry.data;
+const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+const prevHref = currentPage === 2 ? '/' : `/page/${currentPage - 1}`;
+const nextHref = currentPage < totalPages ? `/page/${currentPage + 1}` : '';
+---
+
+<BaseLayout title={`${profile.name} 的 AI 应用项目博客 - 第 ${currentPage} 页`} description={profile.bio}>
+  <section class="page-hero compact">
+    <p class="eyebrow">AI Portfolio</p>
+    <h1>项目文章</h1>
+    <p>首页文章分页，第 {currentPage} 页。每页展示 {pageSize} 篇，目前共 {totalPosts} 篇。</p>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Projects</p>
+        <h2>第 {currentPage} 页</h2>
+      </div>
+      <a class="text-link" href="/">回到首页</a>
+    </div>
+    <div class="post-grid">
+      {posts.map((post) => (
+        <PostCard
+          href={`/posts/${post.slug}`}
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          cover={post.data.cover}
+        />
+      ))}
+    </div>
+    <nav class="pagination" aria-label="首页文章分页">
+      <span>第 {currentPage} / {totalPages} 页</span>
+      <div>
+        <a class="page-link prev" href={prevHref}>上一页</a>
+        {pageNumbers.map((pageNumber) => (
+          <a
+            class:list={['page-link', { active: pageNumber === currentPage }]}
+            href={pageNumber === 1 ? '/' : `/page/${pageNumber}`}
+            aria-current={pageNumber === currentPage ? 'page' : undefined}
+          >
+            {pageNumber}
+          </a>
+        ))}
+        {nextHref && <a class="page-link next" href={nextHref}>下一页</a>}
+      </div>
+    </nav>
+  </section>
+</BaseLayout>
+
+<style>
+  .pagination {
+    align-items: center;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    display: flex;
+    gap: 18px;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 20px;
+  }
+
+  .pagination > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .page-link {
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--accent-strong);
+    display: inline-flex;
+    font-weight: 740;
+    min-height: 38px;
+    min-width: 38px;
+    padding: 8px 12px;
+  }
+
+  .page-link.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  .page-link:hover {
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 620px) {
+    .pagination {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .pagination > div {
+      justify-content: flex-start;
+    }
+  }
+</style>

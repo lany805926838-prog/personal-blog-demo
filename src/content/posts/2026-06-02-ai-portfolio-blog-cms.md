@@ -7,7 +7,7 @@ tags:
   - Astro
   - CMS
   - Cloudflare
-cover: /uploads/ChatGPT Image 2026年5月16日 11_54_52.png
+cover: /uploads/cover-ai-portfolio-blog-cms.png
 draft: false
 ---
 

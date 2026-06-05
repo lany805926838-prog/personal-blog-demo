@@ -7,7 +7,7 @@ tags:
   - AI 自动化
   - 企业微信
   - 工作流
-cover: /uploads/ChatGPT Image 2026年5月17日 12_39_20.png
+cover: /uploads/cover-enterprise-ticket-routing-assistant.png
 draft: false
 ---
 

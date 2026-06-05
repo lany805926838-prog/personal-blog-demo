@@ -7,7 +7,7 @@ tags:
   - RAG
   - Python
   - 自动化
-cover: /uploads/ChatGPT Image 2026年5月17日 11_43_43.png
+cover: /uploads/cover-soyal-faq-knowledge-base.png
 draft: false
 ---
 

@@ -7,7 +7,7 @@ tags:
   - TypeScript
   - PWA
   - 本地工具
-cover: /uploads/ChatGPT Image 2026年5月17日 11_43_43.png
+cover: /uploads/cover-daily-todo-checkin.png
 draft: false
 ---
 

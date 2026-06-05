@@ -7,7 +7,7 @@ tags:
   - SQLite
   - Chrome 扩展
   - 本地工具
-cover: /uploads/ChatGPT Image 2026年5月17日 12_39_20.png
+cover: /uploads/cover-worktrace-computer-log.png
 draft: false
 ---
 

@@ -8,7 +8,7 @@ tags:
   - AI 助手
   - Cloudflare Workers
   - codex
-cover: /uploads/ChatGPT Image 2026年5月17日 12_39_20.png
+cover: /uploads/cover-soyal-ai-assistant.png
 videoUrl: ''
 draft: false
 ---
